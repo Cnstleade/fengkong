@@ -494,13 +494,180 @@
                         </table>                
                 </el-card>
             </el-row>         
-        </el-dialog>      
+        </el-dialog> 
+        <el-dialog :visible.sync="showDialogVisible" width="60%">
+            <el-row class="flx">
+                <div class="fl">
+                    新颜报告
+                </div>
+                <div class="fr">
+                    报告时间:<span>{{new Date() |dateServer}}</span>
+                </div>
+            </el-row>   
+            <el-row >
+                <el-card>
+                    <el-col :span="6" :offset="2">
+                        <div >
+                            <div class="progress-text">
+                                <strong>{{reportList.loans_score}}</strong>
+                                <p>贷款行为分</p>
+                            </div>
+                                <el-progress type="circle" :percentage="reportList.loans_score" color="red" :show-text="showText">aaaaa</el-progress>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-row style="text-align:center;padding-top:30px">
+                           <strong style="font-size:20px">
+                               贷款行为置信度{{reportList.loans_credibility}}
+                              </strong>
+                        <br/>
+                        <!-- <span>
+                            共发现15条异常信息
+                           </span> -->
+                        </el-row>
+                    </el-col>
+                </el-card>
+            </el-row> 
+            <el-row style="margin-top:20px">
+                <el-card>
+                    <el-row>
+                        <h3>报告详情</h3>
+                    </el-row>
+                    <el-row style="margin-top:20px">
+                        <el-col :span="5">
+                            总贷款放款订单数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                            {{reportList.loans_count}}
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="5">
+                           已结清贷款订单数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.loans_settle_count}}
+                        </el-col>
+                    </el-row> 
+
+                    <el-row>
+                        <el-col :span="5">
+                           逾期贷款（M0+）订单数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.loans_overdue_count}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           贷款放款机构数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.loans_org_count}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           贷款放款的消费金融类机构数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.consfin_org_count}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           查询主体贷款放款的网络贷款类机构数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.loans_cash_count}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           近1个月的贷款放款笔数:
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.latest_one_month}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           近3个月的贷款放款笔数:
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.latest_three_month }}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           近6个月的贷款放款笔数:
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.latest_six_month}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           贷款机构历史成功扣款笔数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.history_suc_fee}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           贷款机构历史失败扣款笔数(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.history_fail_fee}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           近一个月的贷款机构成功扣款笔数:
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.latest_one_month_suc}}
+                        </el-col>
+                    </el-row>                                                                                                                                                                                                                            
+                    <el-row>
+                        <el-col :span="5">
+                           近一个月的贷款机构失败扣款笔数:
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.latest_one_month_fail}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           第一次贷款放款记录至今的天数:
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.loans_long_time}}
+                        </el-col>
+                    </el-row> 
+                    <el-row>
+                        <el-col :span="5">
+                           最后一次贷款放款记录时间(12个月内):
+                        </el-col>
+                        <el-col :span="12">
+                           {{reportList.loans_latest_time}}
+                        </el-col>
+                    </el-row>                                                             
+                </el-card>
+            </el-row>                                 
+        </el-dialog>     
     </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { httpGetCreditReport, httpGetList, httpGetTDReport } from "@/api/http";
+import {
+  httpGetCreditReport,
+  httpGetList,
+  httpGetTDReport,
+  httpGetxinyanreport
+} from "@/api/http";
 import { timeFormat } from "../../../../static/js/time";
 export default {
   data() {
@@ -519,6 +686,7 @@ export default {
       loading: true,
       editVisible: false,
       showVisible: false,
+      showDialogVisible: false,
       showText: false,
       information: {},
       contacts: {},
@@ -529,7 +697,8 @@ export default {
       column_row_offset: [[2, 1], [0, 0], [3, 1], [0, 0], [0, 0], [1, 1]],
       baseInfo: {},
       s: null,
-      realname: ""
+      realname: "",
+      reportList: {}
     };
   },
   computed: {
@@ -567,19 +736,30 @@ export default {
     handleReport(index, row) {
       let _this = this;
 
-      console.log(row);
       for (var key in this.baseInfo) {
         delete this.baseInfo[key];
       }
       console.log(index, row);
       let id = row.tongdunReportId;
 
-      httpGetTDReport(id)
+      httpGetxinyanreport(id)
         .then(res => {
           let data = res.data;
+          if (data.code == 200) {
+            this.reportList = JSON.parse(
+              JSON.stringify(data.data.data.result_detail)
+            );
+            this.showDialogVisible = true;
+          } else if (data.code == 404) {
+            this.$notify.error({
+              title: "错误",
+              message: "此用户没有新颜报告"
+            });
+          }
+          //   let data = res.data;
 
-          _this.baseInfo = data;
-          _this.showVisible = true;
+          //   _this.baseInfo = data;
+          //   _this.showVisible = true;
         })
         .catch();
     },
@@ -595,13 +775,13 @@ export default {
       npage,
       time,
       phonenume,
-      interfaceCallType = 4,
+      interfaceCallType = 6,
       realname
     ) {
       let _this = this;
       _this.loading = true;
       if (time.length === 0) {
-        httpGetCreditReport(pagesize, npage, "", "", phonenume, 4, realname)
+        httpGetCreditReport(pagesize, npage, "", "", phonenume, 6, realname)
           .then(res => {
             let data = res.data;
             _this.allpage = data.allsize;
@@ -611,7 +791,7 @@ export default {
           })
           .catch();
       } else {
-        httpGetCreditReport(pagesize, npage, ...time, phonenume, 4, realname)
+        httpGetCreditReport(pagesize, npage, ...time, phonenume, 6, realname)
           .then(res => {
             let data = res.data;
             _this.allpage = data.allsize;
@@ -638,7 +818,7 @@ export default {
           this.pageSize,
           ["", ""],
           this.select_phone,
-          4,
+          6,
           this.realname
         );
       } else {
@@ -647,7 +827,7 @@ export default {
           this.pageSize,
           this.select_time,
           this.select_phone,
-          4,
+          6,
           this.realname
         );
       }

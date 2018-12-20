@@ -1,5 +1,17 @@
 <template>
     <div class="container">
+      <el-row>
+         <el-button  type="primary" @click="changeTabList">执行顺序</el-button > 
+  <!-- <div class="color-list">
+       <div 
+          class="color-item" 
+          v-for="(temp,i) in datass" v-dragging="{ item: temp, list: datass, group: 'color' }"
+          :key="temp.id"
+      >
+      第{{i+1}}步
+       <span>{{temp.executeNameCn}}</span> 
+      </div>            -->
+      </el-row>
         <el-row >
             <el-table  :data="tableData" border style="width: 100%" v-loading="loading">
                 <el-table-column  sortable label="编号">
@@ -78,12 +90,40 @@
                 <el-button type="primary" @click="handleUpdateCreditPara(configUser.id,configUser.executePara)">确 定</el-button>
             </span>     
          </el-dialog>
+         <el-dialog
+  title="编辑执行顺序"
+  :visible.sync="centerDialogVisible"
+    :before-close="close1"
+  width="50%"
+  center>
+  <div class="color-list">
+       <div 
+          class="color-item" 
+          v-for="(temp,i) in datass" v-dragging="{ item: temp, list: datass, group: 'color' }"
+          :key="temp.id"
+      >
+      第{{i+1}}步
+       <span>{{temp.executeNameCn}}</span> 
+      </div>  
+  </div>
+
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisibleAdd">取 消</el-button>
+    <el-button type="primary" @click="centerDialogVisibleChageng(changeList)">确 定</el-button>
+  </span>
+</el-dialog>
     </div>
 </template>
 
 <script>
-import { httpUpdateCreditStatus, httpGetExecutor,httpChangepara } from "@/api/http";
+import {
+  httpUpdateCreditStatus,
+  httpGetExecutor,
+  httpChangepara,
+  httpSetExecutorOrder
+} from "@/api/http";
 export default {
+  inject: ["reload"],
   data() {
     return {
       editVisible: false,
@@ -94,7 +134,10 @@ export default {
       tableData: [],
       index: 0,
       configUser: {},
-      loading: true
+      loading: true,
+      datass: [],
+      changeList: [],
+      centerDialogVisible: false
     };
   },
   methods: {
@@ -103,6 +146,11 @@ export default {
       this.editVisible = true;
 
       this.configUser = row;
+    },
+    close1() {
+      this.reload();
+      this.centerDialogVisible = false;
+      this.changeList = [];
     },
     //获得数据
     getTableData(npage, pagesize, type = 0) {
@@ -154,14 +202,81 @@ export default {
         .catch(() => {
           console.log(id, executePara);
         });
+    },
+    getData() {
+      httpGetExecutor(1, 999, 0).then(res => {
+        let data = res.data;
+        this.datass = data.list;
+      });
+    },
+    changeTabList() {
+      this.getData();
+      this.centerDialogVisible = true;
+      // this.$dragging.$on("dragged", ({ value }) => {
+      //   this.$set(
+      //     this.changeList,
+      //     0,
+      //     // this.changeList[this.changeList.length - 1],
+      //     value.list
+      //   );
+      //   // this.changeList = JSON.parse(JSON.stringify(value.list));
+      // });
+    },
+    centerDialogVisibleChageng(value) {
+      if (value) {
+        var arr = value.map(v => v.id);
+        httpSetExecutorOrder(arr.join(",")).then(res => {
+          let data = res.data;
+          if (data.code == 200) {
+            this.getTableData(this.currentPage, this.pageSize, this.type);
+            this.changeList.length = 0;
+            setTimeout(() => {
+              this.close1();
+            }, 500);
+          }
+        });
+      }
+      // var arr = this.changeList.length>0
+      //   ? this.changeList.map(v => v.id)
+      //   : this.datass.map(v => v.id);
+    },
+    centerDialogVisibleAdd() {
+      this.close1();
     }
   },
   beforeMount() {
     this.getTableData(this.currentPage, this.pageSize, this.type);
+  },
+  mounted() {
+    this.$dragging.$on("dragged", ({ value }) => {
+      this.changeList = JSON.parse(JSON.stringify(value.list));
+    });
   }
 };
 </script>
 
 <style>
+.color-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.color-item {
+  background-color: rgba(64, 158, 255, 0.1);
+  display: inline-block;
+  padding: 0 10px;
+  height: 32px;
+  line-height: 30px;
+  font-size: 12px;
+  color: #409eff;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: 1px solid rgba(64, 158, 255, 0.2);
+  white-space: nowrap;
+  margin: 5px;
+  cursor: pointer;
+}
 </style>
 

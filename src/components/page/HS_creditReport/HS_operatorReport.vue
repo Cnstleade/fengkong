@@ -717,8 +717,8 @@ export default {
     handleReport(index, row) {
       let mifengReportId = row.mifengReportId;
       let _this = this;
-      let zmcReportId = row.zmcReportId;
-      this._httpGetZMCReport(zmcReportId);
+      // let zmcReportId = row.zmcReportId;
+      // this._httpGetZMCReport(zmcReportId);
       httpPostCarryReport(mifengReportId)
         .then(res => {
           let data = res.data;

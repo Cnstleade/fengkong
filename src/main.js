@@ -12,6 +12,9 @@ import jQuery from 'jquery'
 import './assets/libs/jquery/jQuery.print.js'
 Vue.prototype.$http = axios;
 import store from './store'
+import VueDND from 'awe-dnd'
+
+Vue.use(VueDND)
 
 Object.keys(custom).forEach(key => {
   Vue.filter(key, custom[key])

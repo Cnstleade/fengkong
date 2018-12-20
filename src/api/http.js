@@ -622,3 +622,35 @@ export function httpCreatesysuser(username, password, perContact, perContactPhon
     data: qs.stringify(data)
   })
 }
+
+export function httpSetExecutorOrder(orderIds) {
+  let data = {
+    orderIds
+  };
+  let allCookies = document.cookie
+  return axios({
+    url: '/sys/setExecutorOrder',
+    method: 'post',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      'set-cookie': allCookies,
+    },
+    data: qs.stringify(data)
+  })
+}
+
+export function httpGetxinyanreport(xyReportId) {
+  let data = {
+    xyReportId
+  };
+  let allCookies = document.cookie
+  return axios({
+    url: '/sys/getxinyanreport',
+    method: 'post',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      'set-cookie': allCookies,
+    },
+    data: qs.stringify(data)
+  })
+}
